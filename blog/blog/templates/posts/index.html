@@ -1,0 +1,59 @@
+{% for post in page_obj %}
+  <article>
+    <div class="card-header">
+        <a href="{% url 'posts:profile' post.author %}" class="link-secondary"><h5>{{ post.author.get_full_name }}</h5></a>
+    </div>
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+        <div class="container">
+            <div class="row">
+            <div class="col">
+                <p class=>{{ post.pub_date|date:"d E Y" }}</p>
+            </div>
+            <div class="col">
+                <p class="text-end">55</p>
+            </div>
+            </div>
+        </div>
+        
+        <a href="{% url 'posts:post_detail' post.pk %}" class="stretched-link"></a>
+        <p class="card-text text-secondary">{{ post.text }}</p>
+        </div>
+    </div>
+  </article> 
+{% endfor %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>    
+    <meta charset="utf-8">
+    <title>
+      страница
+    </title>
+  </head>
+
+  <body>
+    {% for post in posts %}
+      <article>
+        <div class="card-header">
+            <h5>{{ post.author.get_full_name }}</h5>
+        </div>
+        <div class="card" style="max-width: 600px;">
+            <div class="card-body">
+            <div class="container">
+                <div class="row">
+                <div class="col">
+                    <p class=>{{ post.pub_date|date:"d E Y" }}</p>
+                </div>
+                </div>
+            </div>
+            
+            <p class="card-text text-secondary">{{ post.text }}</p>
+            </div>
+        </div>
+      </article> 
+      <hr>
+    {% endfor %}
+  </body>
+</html>
