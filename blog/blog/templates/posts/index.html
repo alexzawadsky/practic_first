@@ -1,57 +1,35 @@
-{% for post in page_obj %}
-  <article>
-    <div class="card-header">
-        <a href="{% url 'posts:profile' post.author %}" class="link-secondary"><h5>{{ post.author.get_full_name }}</h5></a>
-    </div>
-    <div class="card" style="max-width: 600px;">
-        <div class="card-body">
-        <div class="container">
-            <div class="row">
-            <div class="col">
-                <p class=>{{ post.pub_date|date:"d E Y" }}</p>
-            </div>
-            <div class="col">
-                <p class="text-end">55</p>
-            </div>
-            </div>
-        </div>
-        
-        <a href="{% url 'posts:post_detail' post.pk %}" class="stretched-link"></a>
-        <p class="card-text text-secondary">{{ post.text }}</p>
-        </div>
-    </div>
-  </article> 
-{% endfor %}
-
-{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
   <head>    
     <meta charset="utf-8">
-    <title>
-      страница
-    </title>
+      <title>
+        страница
+      </title>
   </head>
 
   <body>
     {% for post in posts %}
       <article>
-        <div class="card-header">
-            <h5>{{ post.author.get_full_name }}</h5>
-        </div>
-        <div class="card" style="max-width: 600px;">
-            <div class="card-body">
-            <div class="container">
-                <div class="row">
-                <div class="col">
-                    <p class=>{{ post.pub_date|date:"d E Y" }}</p>
-                </div>
-                </div>
-            </div>
-            
-            <p class="card-text text-secondary">{{ post.text }}</p>
-            </div>
-        </div>
+        {% if post.author.get_full_name %}
+          <h3>{{ post.author.get_full_name }}</h3>
+        {% else %}
+          <h3>{{ post.author.username }}</h3>
+        {% endif %}
+        <p>{{ post.pub_date|date:"d E Y" }}</p>
+        <p>{{ post.text }}</p>
+        {% if post.comments.all %}
+          <h3 style="color:#808080">Комментарии:</h3>
+          {% for comment in post.comments.all %}
+            {% if post.author.get_full_name %}
+              <h3 style="color:#808080">{{ comment.author.get_full_name }}</h3>
+            {% else %}
+              <h3 style="color:#808080">{{ comment.author.username }}</h3>
+            {% endif %}
+            <p style="color:#808080">{{ post.pub_date|date:"d E Y" }}</p>
+            <p style="color:#808080">{{ comment.text }}</p>
+            <br>
+          {% endfor %}
+        {% endif %}
       </article> 
       <hr>
     {% endfor %}
